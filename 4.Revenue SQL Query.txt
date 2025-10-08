@@ -1,0 +1,14 @@
+SELECT 
+      OutInvoiceNmbr,
+      Route,
+      ts.Price AS Revenue,
+      t.RegistrationTag,
+      ClientName,
+      DATENAME(MONTH, oi.IssueDate) AS Month,
+      DATEPART(QUARTER, oi.IssueDate) AS Quarter
+FROM TransportationService ts
+JOIN Item i ON ts.ServiceID = i.ServiceID
+JOIN OutgoingInvoice oi ON i.InvoiceID = oi.InvoiceID
+JOIN Client c ON c.TaxID = oi.TaxID
+JOIN Truck t ON t.TruckID = ts.TruckID
+ORDER BY oi.IssueDate ASC;
